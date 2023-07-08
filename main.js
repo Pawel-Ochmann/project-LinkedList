@@ -46,7 +46,7 @@ class LinkedList {
   at(index) {
     let actualIndex = -1;
     function findIndex(node) {
-      actualIndex++
+      actualIndex++;
       if (actualIndex === index) return node;
       else if (!node.nextNode) return `Node at index ${index} does not exist`;
       else return findIndex(node.nextNode);
@@ -55,20 +55,52 @@ class LinkedList {
   }
 
   pop() {
-    
+    let lastNode = this.head;
+    if (!this.head.nextNode) this.head = null;
+    function deleteLastNode(node) {
+      if (!node.nextNode.nextNode) {
+        lastNode = node.nextNode;
+        node.nextNode = null;
+      } else deleteLastNode(node.nextNode);
+    }
+    deleteLastNode(this.head);
+    return lastNode;
   }
 
-  // contains(value) {
+  contains(value) {
+    function checkValue(node) {
+      if (node.value === value) return true;
+      else if (!node.nextNode) return false;
+      else return checkValue(node.nextNode);
+    }
+    return checkValue(this.head);
+  }
 
-  // }
+  find(value) {
+    let actualIndex = -1;
+    function findIndex(node) {
+      actualIndex++;
+      if (node.value === value) return actualIndex;
+      else if (!node.nextNode) return null;
+      else return findIndex(node.nextNode);
+    }
+    return findIndex(this.head);
+  }
 
-  // find(value) {
+  toString() {
+    let string = '';
+    function getString(node) {
+      if (!node.nextNode) string += `( ${node.value} ) -> ` + node.nextNode;
+      else {
+        string += `( ${node.value} ) -> `;
+        getString(node.nextNode);
+      }
+    }
+    getString(this.head);
+    return string;
+  }
 
-  // }
-
-  // toString() {
-
-  // }
+  
 }
 
 class Node {
@@ -78,11 +110,11 @@ class Node {
   }
 }
 
+
 const test = new Node('test');
 
 const testList = new LinkedList(test);
 testList.append('test1');
 testList.append('test2');
 testList.prepend('test3');
-console.log(testList.at(2));
-console.log(testList.at(5));
+console.log(testList.toString());
