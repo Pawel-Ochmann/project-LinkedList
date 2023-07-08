@@ -3,36 +3,60 @@ class LinkedList {
     this.head = head;
   }
 
-  //   append(value) {
-  //     const node = new Node(value);
-  //     if (!this.nextNode) {
-  //       this.head.nextNode = node;
-  //     } else console.log(this.head.nextNode);
-  //   }
+  append(value) {
+    const nodeNew = new Node(value);
+    function checkNode(node) {
+      if (!node.nextNode) {
+        node.nextNode = nodeNew;
+      } else checkNode(node.nextNode);
+    }
+    checkNode(this.head);
+  }
+  prepend(value) {
+    const nodeNew = new Node(value, this.head);
+    this.head = nodeNew;
+  }
 
-  // prepend(value) {
+  size() {
+    let counter = 1;
+    function count(node) {
+      if (!node.nextNode) return;
+      else {
+        counter++;
+        count(node.nextNode);
+      }
+    }
+    count(this.head.nextNode);
+    return counter;
+  }
 
-  // }
+  getHead() {
+    return this.head;
+  }
 
-  // size() {
+  getTail() {
+    function checkTail(node) {
+      if (!node.nextNode) {
+        return node;
+      } else return checkTail(node.nextNode);
+    }
+    return checkTail(this.head);
+  }
 
-  // }
+  at(index) {
+    let actualIndex = -1;
+    function findIndex(node) {
+      actualIndex++
+      if (actualIndex === index) return node;
+      else if (!node.nextNode) return `Node at index ${index} does not exist`;
+      else return findIndex(node.nextNode);
+    }
+    return findIndex(this.head);
+  }
 
-  // head() {
-
-  // }
-
-  // tail() {
-
-  // }
-
-  // at(index) {
-
-  // }
-
-  // pop() {
-
-  // }
+  pop() {
+    
+  }
 
   // contains(value) {
 
@@ -57,4 +81,8 @@ class Node {
 const test = new Node('test');
 
 const testList = new LinkedList(test);
-console.log(testList);
+testList.append('test1');
+testList.append('test2');
+testList.prepend('test3');
+console.log(testList.at(2));
+console.log(testList.at(5));
