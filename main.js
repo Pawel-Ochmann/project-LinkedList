@@ -99,8 +99,33 @@ class LinkedList {
     getString(this.head);
     return string;
   }
+  insertAt(value, index) {
+    const nodeNew = new Node(value);
+    let actualIndex = 0;
+    function putAtIndex(node) {
+      actualIndex++;
+      if (actualIndex === index) {
+        nodeNew.nextNode = node.nextNode;
+        node.nextNode = nodeNew;
+      } else if (!node.nextNode)
+        console.log('There is no such index in this list');
+      else return putAtIndex(node.nextNode);
+    }
+    putAtIndex(this.head);
+  }
 
-  
+  removeAt(index) {
+    let actualIndex = -1;
+    function removeAtIndex(node) {
+      actualIndex++;
+      if (actualIndex === index - 1) {
+        node.nextNode = node.nextNode.nextNode;
+      } else if (!node.nextNode)
+        console.log('There is no such index in this list');
+      else return removeAtIndex(node.nextNode);
+    }
+    removeAtIndex(this.head);
+  }
 }
 
 class Node {
@@ -110,7 +135,6 @@ class Node {
   }
 }
 
-
 const test = new Node('test');
 
 const testList = new LinkedList(test);
@@ -118,3 +142,8 @@ testList.append('test1');
 testList.append('test2');
 testList.prepend('test3');
 console.log(testList.toString());
+testList.insertAt('this is insert test', 3);
+console.log(testList.toString());
+testList.removeAt(3);
+console.log(testList.toString());
+testList.removeAt(15);
